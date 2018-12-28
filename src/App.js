@@ -84,17 +84,17 @@ class App extends Component {
     const { state } = this;
     /* Menu is an overlay for the Ant Design dropdown component, passed in via props. */
     const menu = (
-      <Menu onClick={(e) => this.handleSelect(e.key, e.item.props.processor)} selectedKeys={[this.state.current]}>
-        <Menu.Item key="Bypass Filter" processor='bypass-processor'>
+      <Menu onClick={(e) => this.handleSelect(e.item.props.name, e.item.props.processor)} selectedKeys={[this.state.current]}>
+        <Menu.Item name="Bypass Filter" processor='bypass-processor'>
           Bypass Filter
         </Menu.Item>
-        <Menu.Item key="One Pole Filter" processor='one-pole-processor'>
+        <Menu.Item name="One Pole Filter" processor='one-pole-processor'>
           One Pole Filter
         </Menu.Item>
-        <Menu.Item key="Noise" processor='noise-generator'>
+        <Menu.Item name="Noise" processor='noise-generator'>
           Noise
         </Menu.Item>
-        <Menu.Item key="Bitcrusher" processor='bit-crusher-processor'>
+        <Menu.Item name="Bitcrusher" processor='bit-crusher-processor'>
           Bitcrusher
         </Menu.Item>   
       </Menu>
