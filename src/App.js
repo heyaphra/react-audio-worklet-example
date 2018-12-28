@@ -61,8 +61,8 @@ class App extends Component {
   /* The function below handles the starting and stopping of the currently loaded module.  */
   handleClick() {
     const { state } = this;
-    if(state.selected) {
-      this.setState({isPlaying: !state.isPlaying}, () => {
+    if(state.moduleLoaded) {
+      this.setState({isPlaying: !state.isPlaying, moduleLoaded: false}, () => {
         switch(state.selected) {
           case 'Bypass Filter':
             this.toggleNode(state.node, state.isPlaying, Bypasser)
