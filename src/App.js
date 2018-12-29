@@ -13,6 +13,7 @@ class App extends Component {
       processor: null, /* Current AudioWorkletProcessor (String) */
       node: null, /* Current AudioWorkletNode (AudioWorkletNode)*/
       moduleLoaded: false, /* Has the selected AudioWorkletProcessor finished loading? (Boolean)*/
+      status: null
     }
   }
   /* loadModule: given a module's name, adds it to the audioWorklet */
@@ -31,7 +32,7 @@ class App extends Component {
      It also handles instantiating an AudioContext since it's likely the first user gesture.*/
   handleSelect(name, processor) {
     if(this.state.isPlaying) return;
-    this.setState({ selected: name, processor, moduleLoaded: false, status: 'Loading module...' }, () => {
+    this.setState({ selected: name, processor, moduleLoaded: false, status: 'Loading module, please wait...' }, () => {
       if(!this.actx) {
         try {
           console.log('New context instantiated')
