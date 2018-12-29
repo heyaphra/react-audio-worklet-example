@@ -31,7 +31,7 @@ class App extends Component {
      It also handles instantiating an AudioContext since it's likely the first user gesture.*/
   handleSelect(name, processor) {
     if(this.state.isPlaying) return;
-    this.setState({ selected: name, processor }, () => {
+    this.setState({ selected: name, processor, moduleLoaded: false }, () => {
       if(!this.actx) {
         try {
           console.log('New context instantiated')
