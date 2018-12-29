@@ -20,7 +20,7 @@ class App extends Component {
     const { actx } = this;   
     try {
       await actx.audioWorklet.addModule(`worklet/${moduleName}.js`);
-      this.setState({moduleLoaded: true})
+      this.setState({moduleLoaded: true, status: null})
       console.log(`loaded module ${moduleName}`);
     } catch(e) {
       this.setState({moduleLoaded: false})
@@ -31,7 +31,7 @@ class App extends Component {
      It also handles instantiating an AudioContext since it's likely the first user gesture.*/
   handleSelect(name, processor) {
     if(this.state.isPlaying) return;
-    this.setState({ selected: name, processor, moduleLoaded: false }, () => {
+    this.setState({ selected: name, processor, moduleLoaded: false, status: 'Loading module...' }, () => {
       if(!this.actx) {
         try {
           console.log('New context instantiated')
@@ -109,6 +109,8 @@ class App extends Component {
               </a>
             </Dropdown>
             <Button ghost onClick={() => this.handleClick()} style={{marginLeft:'1%'}}>{state.isPlaying ? 'Stop' : 'Start'}</Button>
+          <br />
+          <small>{state.status}</small>
           </div>
         </header>
       </div>
