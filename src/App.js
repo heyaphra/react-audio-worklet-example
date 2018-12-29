@@ -19,9 +19,7 @@ class App extends Component {
   async loadModule(moduleName) {
     const { actx } = this;   
     try {
-      await actx.audioWorklet.addModule(
-        `worklet/${moduleName}.js`,
-      );
+      await actx.audioWorklet.addModule(`worklet/${moduleName}.js`);
       this.setState({moduleLoaded: true})
       console.log(`loaded module ${moduleName}`);
     } catch(e) {
