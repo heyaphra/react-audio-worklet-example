@@ -13,7 +13,7 @@ class App extends Component {
       processor: null, /* Current AudioWorkletProcessor (String) */
       node: null, /* Current AudioWorkletNode (AudioWorkletNode)*/
       moduleLoaded: false, /* Has the selected AudioWorkletProcessor finished loading? (Boolean)*/
-      status: null
+      status: null /* Load status message (String) */
     }
   }
   /* loadModule: given a module's name, adds it to the audioWorklet */
