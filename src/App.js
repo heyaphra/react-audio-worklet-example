@@ -32,7 +32,7 @@ class App extends Component {
      It also handles instantiating an AudioContext since it's likely the first user gesture.*/
   handleSelect(name, processor) {
     if(this.state.isPlaying) return;
-    this.setState({ selected: name, processor, moduleLoaded: false, status: 'Loading module, please wait...' }, () => {
+    this.setState({ selected: name, processor: {name: processor.name, cb: processor.cb}, moduleLoaded: false, status: 'Loading module, please wait...' }, () => {
       if(!this.actx) {
         try {
           console.log('New context instantiated')
@@ -41,7 +41,7 @@ class App extends Component {
             console.log(`Sorry, but your browser doesn't support the Web Audio API!`, e);
         }
       } 
-      this.loadModule(processor)
+      this.loadModule(processor.name)
     });
   }
   /* toggleNode: starts and stops audio by sending a boolean via the AudioWorkletProcessor's message port.*/
@@ -62,20 +62,7 @@ class App extends Component {
     const { state } = this;
     if(state.selected && state.moduleLoaded) {
       this.setState({isPlaying: !state.isPlaying }, () => {
-        switch(state.selected) {
-          case 'Bypass Filter':
-            this.toggleNode(state.node, state.isPlaying, Bypasser)
-          break;
-          case 'One Pole Filter':
-            this.toggleNode(state.node, state.isPlaying, onePoleFilter)        
-          break;
-          case 'Noise':
-            this.toggleNode(state.node, state.isPlaying, noiseGenerator)        
-          break;
-          case 'Bitcrusher':
-            this.toggleNode(state.node, state.isPlaying, bitCrusher)        
-          break;
-        }
+          this.toggleNode(state.node, state.isPlaying, state.processor.cb);
       });    
     }    
   }
@@ -84,16 +71,16 @@ class App extends Component {
     /* Menu is an overlay for the Ant Design dropdown component, passed in via props. */
     const menu = (
       <Menu onClick={(e) => this.handleSelect(e.item.props.name, e.item.props.processor)} selectedKeys={[this.state.current]}>
-        <Menu.Item name="Bypass Filter" processor='bypass-processor'>
+        <Menu.Item name="Bypass Filter" processor={{name: 'bypass-processor', cb: Bypasser}}>
           Bypass Filter
         </Menu.Item>
-        <Menu.Item name="One Pole Filter" processor='one-pole-processor'>
+        <Menu.Item name="One Pole Filter" processor={{name: 'one-pole-processor', cb: onePoleFilter}}>
           One Pole Filter
         </Menu.Item>
-        <Menu.Item name="Noise" processor='noise-generator'>
+        <Menu.Item name="Noise"  processor={{name: 'noise-generator', cb: noiseGenerator}}>
           Noise
         </Menu.Item>
-        <Menu.Item name="Bitcrusher" processor='bit-crusher-processor'>
+        <Menu.Item name="Bitcrusher" processor={{name: 'bit-crusher-processor', cb: bitCrusher}}>
           Bitcrusher
         </Menu.Item>   
       </Menu>
