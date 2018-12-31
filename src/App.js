@@ -17,15 +17,15 @@ class App extends Component {
     }
   }
   /* loadModule: given a module's name, adds it to the audioWorklet */
-  async loadModule(moduleName) {
-    const { actx } = this;   
+  async loadModule() {
+    const { state, actx } = this;   
     try {
-      await actx.audioWorklet.addModule(`worklet/${moduleName}.js`);
+      await actx.audioWorklet.addModule(`worklet/${state.processor.name}.js`);
       this.setState({moduleLoaded: true, status: null})
-      console.log(`loaded module ${moduleName}`);
+      console.log(`loaded module ${state.processor.name}`);
     } catch(e) {
       this.setState({moduleLoaded: false})
-      console.log(`Failed to load module ${moduleName}`);
+      console.log(`Failed to load module ${state.processor.name}`);
     }
   }
   /* handleSelect: loads modules when selected from dropdown menu.
@@ -41,7 +41,7 @@ class App extends Component {
             console.log(`Sorry, but your browser doesn't support the Web Audio API!`, e);
         }
       } 
-      this.loadModule(processor.name)
+      this.loadModule()
     });
   }
   /* toggleNode: starts and stops audio by sending a boolean via the AudioWorkletProcessor's message port.*/
