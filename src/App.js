@@ -9,7 +9,7 @@ class App extends Component {
     super();
     this.state = {
       isPlaying: false, /* Is audio currently playing? (Boolean) */
-      processor: null, /* Current AudioWorkletProcessor (String) */
+      processor: null, /* Object containing processor name, callback, and menu item name */
       node: null, /* Current AudioWorkletNode (AudioWorkletNode)*/
       moduleLoaded: false, /* Has the selected AudioWorkletProcessor finished loading? (Boolean)*/
       status: null /* Load status message (String) */
