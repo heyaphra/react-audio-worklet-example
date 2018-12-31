@@ -44,14 +44,14 @@ class App extends Component {
     });
   }
   /* toggleNode: starts and stops audio by sending a boolean via the AudioWorkletProcessor's message port.*/
-  toggleNode(node, isPlaying, cb){
+  toggleNode(){
     const { state } = this;
-    if(isPlaying) {
+    if(state.isPlaying) {
       console.log(`stopping ${state.processor.name}`)
-      node.port.postMessage(false)
+      state.node.port.postMessage(false)
     } else {
       console.log(`playing ${state.processor.name}`)
-      node = cb(this);
+      const node = state.processor.cb(this);
       this.setState({ node });
       node.port.postMessage(true);          
     }
@@ -59,11 +59,8 @@ class App extends Component {
   /* The function below handles the starting and stopping of the currently loaded module.  */
   handleClick() {
     const { state } = this;
-    if(state.moduleLoaded) {
-      this.setState({isPlaying: !state.isPlaying }, () => {
-          this.toggleNode(state.node, state.isPlaying, state.processor.cb);
-      });    
-    }    
+    this.toggleNode();
+    this.setState({isPlaying: !state.isPlaying });    
   }
   render() {
     const { state } = this;
