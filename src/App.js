@@ -109,7 +109,7 @@ class App extends Component {
                 {state.selected ? state.selected : 'Select a module'} <Icon type="down" />
               </a>
             </Dropdown>
-            <Button ghost onClick={() => this.handleClick()} style={{marginLeft:'1%'}}>{state.isPlaying ? 'Stop' : 'Start'}</Button>
+            <Button ghost disabled={!state.moduleLoaded} onClick={() => this.handleClick()} style={{marginLeft:'1%'}}>{state.isPlaying ? 'Stop' : 'Start'}</Button>
           <br />
           <small>{state.status}</small>
           </div>
