@@ -8,7 +8,6 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      selected: null, /* Which menu item has been selected? (String) */
       isPlaying: false, /* Is audio currently playing? (Boolean) */
       processor: null, /* Current AudioWorkletProcessor (String) */
       node: null, /* Current AudioWorkletNode (AudioWorkletNode)*/
@@ -32,7 +31,7 @@ class App extends Component {
      It also handles instantiating an AudioContext since it's likely the first user gesture.*/
   handleSelect(name, processor) {
     if(this.state.isPlaying) return;
-    this.setState({ selected: name, processor: {name: processor.name, cb: processor.cb}, moduleLoaded: false, status: 'Loading module, please wait...' }, () => {
+    this.setState({ processor: {name: processor.name, cb: processor.cb}, moduleLoaded: false, status: 'Loading module, please wait...' }, () => {
       if(!this.actx) {
         try {
           console.log('New context instantiated')
@@ -48,10 +47,10 @@ class App extends Component {
   toggleNode(node, isPlaying, cb){
     const { state } = this;
     if(isPlaying) {
-      console.log(`stopping ${state.selected}`)
+      console.log(`stopping ${state.processor.name}`)
       node.port.postMessage(false)
     } else {
-      console.log(`playing ${state.selected}`)
+      console.log(`playing ${state.processor.name}`)
       node = cb(this);
       this.setState({ node });
       node.port.postMessage(true);          
@@ -60,7 +59,7 @@ class App extends Component {
   /* The function below handles the starting and stopping of the currently loaded module.  */
   handleClick() {
     const { state } = this;
-    if(state.selected && state.moduleLoaded) {
+    if(state.moduleLoaded) {
       this.setState({isPlaying: !state.isPlaying }, () => {
           this.toggleNode(state.node, state.isPlaying, state.processor.cb);
       });    
@@ -93,7 +92,7 @@ class App extends Component {
           <div style={{float:'left', width: '100%'}}>
             <Dropdown overlay={menu} size='small'>
               <a className="ant-dropdown-link" href="#">
-                {state.selected ? state.selected : 'Select a module'} <Icon type="down" />
+                {state.processor ? state.processor.name : 'Select a module'} <Icon type="down" />
               </a>
             </Dropdown>
             <Button ghost disabled={!state.moduleLoaded} onClick={() => this.handleClick()} style={{marginLeft:'1%'}}>{state.isPlaying ? 'Stop' : 'Start'}</Button>
