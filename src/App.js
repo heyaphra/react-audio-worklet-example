@@ -55,11 +55,6 @@ class App extends Component {
       this.setState({ node });
       node.port.postMessage(true);          
     }
-  }
-  /* The function below handles the starting and stopping of the currently loaded module.  */
-  handleClick() {
-    const { state } = this;
-    this.toggleNode();
     this.setState({isPlaying: !state.isPlaying });    
   }
   render() {
@@ -92,7 +87,7 @@ class App extends Component {
                 {state.processor ? state.processor.name : 'Select a module'} <Icon type="down" />
               </a>
             </Dropdown>
-            <Button ghost disabled={!state.moduleLoaded} onClick={() => this.handleClick()} style={{marginLeft:'1%'}}>{state.isPlaying ? 'Stop' : 'Start'}</Button>
+            <Button ghost disabled={!state.moduleLoaded} onClick={() => this.toggleNode()} style={{marginLeft:'1%'}}>{state.isPlaying ? 'Stop' : 'Start'}</Button>
           <br />
           <small>{state.status}</small>
           </div>
